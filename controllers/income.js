@@ -1,21 +1,21 @@
 const { z } = require("zod");
 const User = require('../models/user');
 const { userIdValidation } = require("../lib/validation/user");
-const { incomeschema } = require("../lib/validation/income");
+const { incomeSchema } = require("../lib/validation/income");
 const Income = require("../models/income");
 
 const addIncome = async (req, res) => {
   try {
 
-    const userId = userIdValidation.parse(req.parse.userId);
-    const { title,description,amount,tag,currency} = incomeschema.parse(req.body);
+    const userId = userIdValidation.parse(req.params.userId);
+    const { title,description,amount,tag,currency} = incomeSchema.parse(req.body);
 
     const userExists = await User.findById(userId);
     if(!userExists){
         return res.status(404).json({message:'user not found'});
     }
 
-    const income = new income({
+    const income = new Income({
         title,
         description,
         amount,
@@ -43,7 +43,7 @@ const addIncome = async (req, res) => {
 };
 const getIncomes = async(req , res) =>{
   try{
-  const userId = userIdValidation.parse(req.parse.userId);
+  const userId = userIdValidation.parse(req.params.userId);
     const userExists = await User.findById(userId);
     if(!userExists){
         return res.status(404).json({message:'user not found'});
