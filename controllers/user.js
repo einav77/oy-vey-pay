@@ -9,7 +9,7 @@ const { setTokenCookie } = require("../lib/utils");
 const signUp = async (req, res) => {
   try {
     const { fullName, username, email, password } = signUpSchema.parse(req.body);
-    //......
+    
 
     const usernameExists = await User.findOne({ username });
     if (usernameExists) {
@@ -97,3 +97,5 @@ module.exports = {
   signIn,
   signOut,
 };
+
+
